@@ -5,6 +5,10 @@ const mongoose = require('mongoose'),
 class CustomersRepository {
 
     // get all the customers
+    /**
+     * 
+     * @param {function(any, {})} callback 
+     */
     getCustomers(callback) {
         console.log('*** CustomersRepository.getCustomers');
         Customer.count((err, custsCount) => {

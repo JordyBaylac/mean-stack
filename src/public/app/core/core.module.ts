@@ -11,7 +11,7 @@ import { EnsureModuleLoadedOnceGuard } from '../shared/ensureModuleLoadedOnceGua
   imports: [ HttpModule ],
   providers: [
     //Default XSRF provider setup (change cookie or header name if needed): 
-    //{ provide: XSRFStrategy, useValue: new CookieXSRFStrategy('XSRF-TOKEN', 'X-XSRF-TOKEN') },
+    { provide: XSRFStrategy, useValue: new CookieXSRFStrategy('XSRF-TOKEN6', 'X-XSRF-TOKEN') },
     DataService, DataFilterService, Sorter, TrackByService] // these should be singleton
 })
 export class CoreModule extends EnsureModuleLoadedOnceGuard {    //Ensure that CoreModule is only loaded into AppModule

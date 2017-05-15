@@ -49,7 +49,7 @@ export class DataService {
     }
 
     insertCustomer(customer: ICustomer) : Observable<ICustomer> {
-        return this.http.post(this.baseUrl, customer)
+        return this.http.post(this.baseUrl, customer /*, this.getRequestOptions()*/)
                    .map((res: Response) => {
                        const data = res.json();
                        console.log('insertCustomer status: ' + data.status);
@@ -59,7 +59,7 @@ export class DataService {
     }
    
     updateCustomer(customer: ICustomer) : Observable<ICustomer> {
-        return this.http.put(this.baseUrl + '/' + customer._id, customer) 
+        return this.http.put(this.baseUrl + '/' + customer._id, customer/*, this.getRequestOptions()*/) 
                    .map((res: Response) => {
                        const data = res.json();
                        console.log('updateCustomer status: ' + data.status);
@@ -73,11 +73,30 @@ export class DataService {
                    .map((res: Response) => res.json().status)
                    .catch(this.handleError);
     }
+    
+    private getCookie(cname: string) : string {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
 
     //Not used but could be called to pass "options" (3rd parameter) to 
     //appropriate POST/PUT/DELETE calls made with http
+    // el server devuelve una cookie en el response, y angular lee la cookie y la manda en
+    // el header cada vez que envia algo (y se quiera proteger ante CSRF)
+    // PUEDE usarse esta variante o usar una XSRFStrategy en un modulo
     getRequestOptions() {
-        const csrfToken = ''; //would retrieve from cookie or from page
+        const csrfToken = this.getCookie('XSRF-TOKEN4'); //would retrieve from cookie or from page
         const options = new RequestOptions({
             headers: new Headers({ 'x-xsrf-token': csrfToken })
         });

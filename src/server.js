@@ -54,8 +54,9 @@ class Server {
 
         app.use((req, res, next) => {
             var csrfToken = req.csrfToken();
-            res.locals._csrf = csrfToken;
-            res.cookie('XSRF-TOKEN', csrfToken);
+            //res.locals._csrf = csrfToken; //!> allow use of _csrf token on templates (handlebars, etc...)
+            res.cookie('XSRF-TOKEN6', csrfToken);
+            console.log('sending XSRF cookie: ' + csrfToken);
             next();
         });
 
